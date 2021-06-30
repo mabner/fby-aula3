@@ -78,6 +78,7 @@ def listar_pessoas(request):
 
     for pessoa in pessoas:
         pdic = {
+            'id': pessoa.id,
             'nome': pessoa.nome, 'sobrenome': pessoa.sobrenome,
             'idade': pessoa.idade
         }
@@ -125,4 +126,9 @@ def detalhar_pessoa2(request, idpessoa):
 
 
 def apagar(request, idpessoa):
-    Pessoa.objects.get(id=idpessoa).delete()
+    try:
+        Pessoa.objects.get(id=idpessoa).delete()
+    except:
+        return HttpResponse(f"Erro ao apagar a pessoa, ou não encontrada")
+
+    return HttpResponse("Pessoa apagada")
