@@ -18,8 +18,14 @@ class Pessoa(models.Model):
                                      null=True)
     telefones = models.ManyToManyField(Telefone)
 
+    def __str__(self):
+        return f"{self.nome} {self.sobrenome}"
+
 
 class PessoaManager(models.Manager):
+
+    def obter_pessoa_id(self, idpessoa):
+        return self.get(id=idpessoa)
 
     def obter_todas_pessoas(self):
         return self.all()
@@ -48,3 +54,9 @@ class PessoaManager(models.Manager):
     def pessoas_m(self):
         pessoas_m = self.filter(nome__startswith="M")
         return pessoas_m
+
+    def create_pessoa(self, nome_completo):
+        _nome_completo = nome_completo.split(" ")
+        pessoa = self.create(nome=_nome_completo[0],
+                             sobrenome=_nome_completo[1])
+        return pessoa
