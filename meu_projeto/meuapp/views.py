@@ -122,3 +122,7 @@ def detalhar_pessoa2(request, idpessoa):
         return HttpResponse("Erro ao buscar Pessoa")
 
     return HttpResponse(f"Você procurou a pessoa de nome {pessoa.nome}")
+
+
+def apagar(request, idpessoa):
+    Pessoa.objects.get(id=idpessoa).delete()
