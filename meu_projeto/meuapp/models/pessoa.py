@@ -1,25 +1,5 @@
 from django.db import models
-from . import Departamento, Telefone
-
-
-class Pessoa(models.Model):
-    SEXO_CHOICES = [('M', 'Masculino'),
-                    ('F', 'Feminino')]
-
-    nome = models.CharField(max_length=50)
-    sobrenome = models.CharField(max_length=50,
-                                 null=True)
-    idade = models.IntegerField(default=0)
-    sexo = models.CharField(max_length=10,
-                            choices=SEXO_CHOICES,
-                            default='M')
-    departamento = models.ForeignKey(Departamento,
-                                     on_delete=models.SET_NULL,
-                                     null=True)
-    telefones = models.ManyToManyField(Telefone)
-
-    def __str__(self):
-        return f"{self.nome} {self.sobrenome}"
+from . import Departamento, Telefone, Cargo, Plantao
 
 
 class PessoaManager(models.Manager):
@@ -60,3 +40,35 @@ class PessoaManager(models.Manager):
         pessoa = self.create(nome=_nome_completo[0],
                              sobrenome=_nome_completo[1])
         return pessoa
+
+
+class Pessoa(models.Model):
+    SEXO_CHOICES = [('M', 'Masculino'),
+                    ('F', 'Feminino')]
+
+    nome = models.CharField(max_length=50)
+
+    sobrenome = models.CharField(max_length=50,
+                                 null=True)
+    idade = models.IntegerField(default=0)
+
+    sexo = models.CharField(max_length=10,
+                            choices=SEXO_CHOICES,
+                            default='M')
+
+    departamento = models.ForeignKey(Departamento,
+                                     on_delete=models.SET_NULL,
+                                     null=True)
+
+    cargo = models.ForeignKey(Cargo, on_delete=models.SET_NULL,
+                              null=True)
+
+    plantao = models.ForeignKey(Plantao, on_delete=models.SET_NULL,
+                                null=True)
+
+    telefones = models.ManyToManyField(Telefone)
+
+    objects = PessoaManager()
+
+    def __str__(self):
+        return f"{self.nome} {self.sobrenome}"
