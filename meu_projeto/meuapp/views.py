@@ -129,6 +129,20 @@ def apagar(request, idpessoa):
     try:
         Pessoa.objects.get(id=idpessoa).delete()
     except:
-        return HttpResponse(f"Erro ao apagar a pessoa, ou não encontrada")
+        return HttpResponse("Erro ao apagar a pessoa, ou não encontrada")
 
     return HttpResponse("Pessoa apagada")
+
+
+def editar_pessoa(request, idPessoa, nome, sobrenome, idade):
+    try:
+        pessoa = Pessoa.objects.get(id=idPessoa)
+        pessoa.nome = nome
+        pessoa.sobrenome = sobrenome
+        pessoa.idade = idade
+        pessoa.save()
+
+    except:
+        return HttpResponse("Erro ao editar registro")
+
+    return HttpResponse("Registro atualizado")
