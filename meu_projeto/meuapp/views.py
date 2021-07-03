@@ -134,9 +134,10 @@ def apagar(request, idpessoa):
     return HttpResponse("Pessoa apagada")
 
 
+@csrf_exempt
 def editar_pessoa(request, idPessoa, nome, sobrenome, idade):
     try:
-        pessoa = Pessoa.objects.get(id=idPessoa)
+        pessoa = Pessoa.objects.get(idPessoa)
         pessoa.nome = nome
         pessoa.sobrenome = sobrenome
         pessoa.idade = idade
